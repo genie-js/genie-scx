@@ -177,6 +177,38 @@ const MapData = struct([
   ])))]
 ])
 
+const Objects = struct([
+  ['objectsCount', t.uint32],
+  ['objects', t.array('objectsCount', struct([
+    ['x', t.float],
+    ['y', t.float],
+    ['z', t.float],
+    ['id', t.int32],
+    ['type', t.int16],
+    ['state', t.uint8],
+    ['angle', t.float],
+    ['frame', t.int16],
+    ['garrisonedIn', t.int32]
+  ]))]
+]).map(
+  (s) => s.objects,
+  (objects) => ({ objects, objectsCount: objects.length })
+)
+
+const TribePlayerData = struct([
+  ['playerCount', t.uint32],
+  ['playerResources', t.array(8, struct([
+    ['food', t.float],
+    ['wood', t.float],
+    ['gold', t.float],
+    ['stone', t.float],
+    ['ore', t.float],
+    ['goods', t.float],
+    ['population', t.float]
+  ]))],
+  ['playerObjects', t.array('playerCount', Objects)]
+])
+
 module.exports = {
   PreHeader,
   CompressedHeader,
@@ -186,5 +218,6 @@ module.exports = {
   Diplomacy,
   TechTree,
   MapData,
+  TribePlayerData,
   version (v) { version = v }
 }
