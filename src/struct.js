@@ -1,6 +1,8 @@
 const struct = require('awestruct')
 const t = struct.types
 
+let version = 1.00
+
 const dynamicString = (sizeType) =>
   struct([
     ['length', sizeType],
@@ -81,7 +83,7 @@ const Messages = struct([
   ['victoryId', t.int32],
   ['lossId', t.int32],
   ['historyId', t.int32],
-  t.if(() => SCX.version >= 1.22, struct([
+  t.if(() => version >= 1.22, struct([
     ['scoutsId', t.int32]
   ])),
   ['instructions', dynamicString(t.uint16)],
@@ -89,7 +91,7 @@ const Messages = struct([
   ['victory', dynamicString(t.uint16)],
   ['loss', dynamicString(t.uint16)],
   ['history', dynamicString(t.uint16)],
-  t.if(() => SCX.version >= 1.22, struct([
+  t.if(() => version >= 1.22, struct([
     ['scouts', dynamicString(t.uint16)]
   ])),
   ['pregameFilename', dynamicString(t.uint16)],
@@ -132,7 +134,7 @@ const GlobalVictory = struct([
   ['exploration', t.uint32],
   t.skip(4),
   ['allConditions', t.uint32],
-  t.if(() => SCX.version >= 1.13, struct([
+  t.if(() => version >= 1.13, struct([
     ['mode', t.uint32],
     ['score', t.uint32],
     ['time', t.uint32]
@@ -148,11 +150,11 @@ const Diplomacy = struct([
 
 const TechTree = struct([
   ['disabledTechCount', t.array(16, t.int32)],
-  ['disabledTechIds', t.array(16, t.array(() => SCX.version >= 1.30 ? 60 : 30, t.int32))],
+  ['disabledTechIds', t.array(16, t.array(() => version >= 1.30 ? 60 : 30, t.int32))],
   ['disabledUnitCount', t.array(16, t.int32)],
-  ['disabledUnitIds', t.array(16, t.array(() => SCX.version >= 1.30 ? 60 : 30, t.int32))],
+  ['disabledUnitIds', t.array(16, t.array(() => version >= 1.30 ? 60 : 30, t.int32))],
   ['disabledBuildingCount', t.array(16, t.int32)],
-  ['disabledBuildingIds', t.array(16, t.array(() => SCX.version >= 1.30 ? 60 : 20, t.int32))],
+  ['disabledBuildingIds', t.array(16, t.array(() => version >= 1.30 ? 60 : 20, t.int32))],
   t.skip(4),
   t.skip(4),
   ['allTechs', t.int32],
@@ -183,5 +185,6 @@ module.exports = {
   GlobalVictory,
   Diplomacy,
   TechTree,
-  MapData
+  MapData,
+  version (v) { version = v }
 }

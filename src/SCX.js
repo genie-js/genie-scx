@@ -2,6 +2,7 @@ const { Buffer } = require('safe-buffer')
 const fs = require('fs')
 const inflate = require('inflate-raw')
 const {
+  version,
   PreHeader,
   CompressedHeader,
   Messages,
@@ -42,7 +43,8 @@ class SCX {
       if (err) return cb(err)
       const opts = { buf: uncompressed, offset: 0 }
       const header = CompressedHeader(opts)
-      SCX.version = header.version
+      // let structs know about the current version.
+      version(header.version)
       const messages = Messages(opts)
       const playerData = PlayerData(opts)
       const victory = GlobalVictory(opts)
