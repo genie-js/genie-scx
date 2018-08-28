@@ -1,0 +1,29 @@
+{
+  "name": "genie-scx",
+  "description": ".SCX scenario file reader.",
+  "version": "0.0.0",
+  "author": "goto-bus-stop <rene@kooi.me>",
+  "bugs": "https://github.com/goto-bus-stop/genie-scx/issues",
+  "dependencies": {
+    "awestruct": "^1.0.0",
+    "safe-buffer": "^5.1.2"
+  },
+  "devDependencies": {
+    "buble": "^0.19.3",
+    "standard": "^11.0.1"
+  },
+  "homepage": "https://github.com/goto-bus-stop/genie-scx",
+  "keywords": [
+    "age of empires",
+    "genie",
+    "scenario",
+    "scx"
+  ],
+  "license": "MIT",
+  "main": "lib/SCX",
+  "repository": "goto-bus-stop/genie-scx",
+  "scripts": {
+    "build": "buble src -o lib",
+    "test": "standard"
+  }
+}
