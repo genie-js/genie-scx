@@ -39,7 +39,7 @@ class SCX {
     }
 
     const pre = PreHeader(this.buffer)
-    inflate(this.buffer.slice(pre.headerLength), (err, uncompressed) => {
+    inflate(this.buffer.slice(8 + pre.headerLength), (err, uncompressed) => {
       if (err) return cb(err)
       const opts = { buf: uncompressed, offset: 0 }
       const header = CompressedHeader(opts)
