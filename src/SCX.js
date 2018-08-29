@@ -62,7 +62,7 @@ class SCX {
         diplomacy,
         techTree,
         map,
-        tribePlayerData,
+        tribePlayerData
       })
     })
   }
