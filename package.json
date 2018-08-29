@@ -26,6 +26,6 @@
   "repository": "goto-bus-stop/genie-scx",
   "scripts": {
     "build": "buble src -o lib",
-    "test": "node test && standard"
+    "test": "node -r buble/register test && standard"
   }
 }
