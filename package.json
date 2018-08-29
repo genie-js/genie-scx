@@ -1,7 +1,7 @@
 {
   "name": "genie-scx",
   "description": ".SCX scenario file reader.",
-  "version": "0.0.0",
+  "version": "0.0.0-alpha.0",
   "author": "goto-bus-stop <rene@kooi.me>",
   "bugs": "https://github.com/goto-bus-stop/genie-scx/issues",
   "dependencies": {
@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "buble": "^0.19.3",
+    "rimraf": "^2.6.2",
     "standard": "^11.0.1",
     "tape": "^4.9.1"
   },
@@ -25,6 +26,7 @@
   "main": "lib/SCX",
   "repository": "goto-bus-stop/genie-scx",
   "scripts": {
+    "prepare": "rimraf lib && npm run build",
     "build": "buble src -o lib",
     "test": "node -r buble/register test && standard"
   }
