@@ -28,6 +28,7 @@
   "scripts": {
     "prepare": "rimraf lib && npm run build",
     "build": "buble src -o lib",
-    "test": "node -r buble/register test && standard"
+    "test": "node -r buble/register test",
+    "lint": "standard"
   }
 }
