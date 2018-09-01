@@ -13,7 +13,8 @@ const {
   MapData,
   TribePlayerData,
   MorePlayerData,
-  Triggers
+  Triggers,
+  Scripts
 } = require('./struct')
 
 class SCX {
@@ -57,6 +58,7 @@ class SCX {
       const tribePlayerData = TribePlayerData(opts)
       const morePlayerData = MorePlayerData(opts)
       const triggers = Triggers(opts)
+      const scripts = Scripts(opts)
       cb(null, {
         pre,
         header,
@@ -68,7 +70,8 @@ class SCX {
         map,
         tribePlayerData,
         morePlayerData,
-        triggers
+        triggers,
+        scripts
       })
     })
   }

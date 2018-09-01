@@ -317,6 +317,20 @@ const Triggers = struct([
   ['triggerOrder', t.array(s => s.triggers.length, t.int32)]
 ])
 
+const Scripts = struct([
+  ['hasScripts', t.int32],
+  ['hasError', t.int32],
+  t.if('hasError', struct([
+    ['error', t.string(0x18C)]
+  ])),
+  t.if('hasScripts', struct([
+    ['scripts', t.dynarray(t.int32, struct([
+      ['filename', t.dynstring(t.int32)],
+      ['data', t.dynstring(t.int32)]
+    ]))]
+  ]))
+])
+
 module.exports = {
   PreHeader,
   CompressedHeader,
@@ -329,5 +343,6 @@ module.exports = {
   TribePlayerData,
   MorePlayerData,
   Triggers,
+  Scripts,
   version (v) { version = v }
 }
