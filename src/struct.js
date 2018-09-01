@@ -3,30 +3,12 @@ const t = struct.types
 
 let version = 1.00
 
-const dynamicArray = (sizeType, elementType) =>
-  struct([
-    ['length', sizeType],
-    ['array', t.array('length', elementType)]
-  ]).map(
-    (s) => s.array,
-    (array) => ({ length: array.length, array })
-  )
-
-const dynamicString = (sizeType) =>
-  struct([
-    ['length', sizeType],
-    ['string', t.string('length')]
-  ]).map(
-    (s) => s.string,
-    (string) => ({ length: string.length, string })
-  )
-
 const PreHeader = struct([
   ['version', t.string(4)],
   ['headerLength', t.uint32],
   t.skip(4),
   ['timestamp', t.uint32],
-  ['instructions', dynamicString(t.uint32)],
+  ['instructions', t.dynstring(t.uint32)],
   t.skip(4),
   ['numPlayers', t.uint32]
 ])
@@ -50,7 +32,7 @@ const CompressedHeader = struct([
   t.skip(4),
   t.skip(1),
   t.skip(4),
-  ['filename', dynamicString(t.uint16)]
+  ['filename', t.dynstring(t.uint16)]
 ])
 
 const Picture = struct([
@@ -95,25 +77,25 @@ const Messages = struct([
   t.if(() => version >= 1.22, struct([
     ['scoutsId', t.int32]
   ])),
-  ['instructions', dynamicString(t.uint16)],
-  ['hints', dynamicString(t.uint16)],
-  ['victory', dynamicString(t.uint16)],
-  ['loss', dynamicString(t.uint16)],
-  ['history', dynamicString(t.uint16)],
+  ['instructions', t.dynstring(t.uint16)],
+  ['hints', t.dynstring(t.uint16)],
+  ['victory', t.dynstring(t.uint16)],
+  ['loss', t.dynstring(t.uint16)],
+  ['history', t.dynstring(t.uint16)],
   t.if(() => version >= 1.22, struct([
-    ['scouts', dynamicString(t.uint16)]
+    ['scouts', t.dynstring(t.uint16)]
   ])),
-  ['pregameFilename', dynamicString(t.uint16)],
-  ['victoryFilename', dynamicString(t.uint16)],
-  ['lossFilename', dynamicString(t.uint16)],
-  ['backgroundFilename', dynamicString(t.uint16)],
+  ['pregameFilename', t.dynstring(t.uint16)],
+  ['victoryFilename', t.dynstring(t.uint16)],
+  ['lossFilename', t.dynstring(t.uint16)],
+  ['backgroundFilename', t.dynstring(t.uint16)],
   ['picture', Picture]
 ])
 
 const PlayerData = struct([
-  ['aiNames', t.array(16, dynamicString(t.uint16))],
-  ['ctyNames', t.array(16, dynamicString(t.uint16))],
-  ['perNames', t.array(16, dynamicString(t.uint16))],
+  ['aiNames', t.array(16, t.dynstring(t.uint16))],
+  ['ctyNames', t.array(16, t.dynstring(t.uint16))],
+  ['perNames', t.array(16, t.dynstring(t.uint16))],
   ['aiFiles', t.array(16, struct([
     ['aiLength', t.uint32],
     ['ctyLength', t.uint32],
@@ -236,7 +218,7 @@ const VictoryConditions = struct([
 ])
 
 const ScenarioPlayer = struct([
-  ['name', dynamicString(t.uint16)],
+  ['name', t.dynstring(t.uint16)],
   ['viewX', t.float],
   ['viewY', t.float],
   ['terrainX', t.int16],
@@ -283,8 +265,8 @@ const TriggerEffect = struct([
   ['unitGroup', t.int32],
   ['unitType', t.int32],
   ['instructionPanel', t.int32],
-  ['text', dynamicString(t.int32)],
-  ['soundFile', dynamicString(t.int32)],
+  ['text', t.dynstring(t.int32)],
+  ['soundFile', t.dynstring(t.int32)],
   ['unitIds', t.array(s => s.selectedCount, t.int32)]
 ])
 
@@ -318,11 +300,11 @@ const Trigger = struct([
   ['isObjective', t.bool],
   ['objectiveOrder', t.int32],
   ['startTime', t.int32],
-  ['description', dynamicString(t.int32)],
-  ['name', dynamicString(t.int32)],
-  ['effects', dynamicArray(t.int32, TriggerEffect)],
+  ['description', t.dynstring(t.int32)],
+  ['name', t.dynstring(t.int32)],
+  ['effects', t.dynarray(t.int32, TriggerEffect)],
   ['effectOrder', t.array(s => s.effects.length, t.int32)],
-  ['conditions', dynamicArray(t.int32, TriggerCondition)],
+  ['conditions', t.dynarray(t.int32, TriggerCondition)],
   ['conditionOrder', t.array(s => s.conditions.length, t.int32)]
 ])
 
@@ -331,7 +313,7 @@ const Triggers = struct([
   t.if(s => s.version >= 1.5, struct([
     ['objectivesState', t.int8]
   ])),
-  ['triggers', dynamicArray(t.int32, Trigger)],
+  ['triggers', t.dynarray(t.int32, Trigger)],
   ['triggerOrder', t.array(s => s.triggers.length, t.int32)]
 ])
 
