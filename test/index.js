@@ -8,3 +8,10 @@ test('real_world_france', (t) => {
     t.end()
   })
 })
+
+test('Age of Heroes beta 1.3.5', (t) => {
+  SCX(path.join(__dirname, 'files/Age of Heroes b1-3-5.scx')).parse((err) => {
+    t.ifError(err)
+    t.end()
+  })
+})
