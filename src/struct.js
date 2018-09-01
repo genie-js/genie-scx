@@ -331,8 +331,8 @@ const Triggers = struct([
   t.if(s => s.version >= 1.5, struct([
     ['objectivesState', t.int8]
   ])),
-  ['triggerCount', t.int32],
-  ['triggers', t.array('triggerCount', Trigger)]
+  ['triggers', dynamicArray(t.int32, Trigger)],
+  ['triggerOrder', t.array(s => s.triggers.length, t.int32)]
 ])
 
 module.exports = {
