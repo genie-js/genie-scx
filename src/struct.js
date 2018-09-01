@@ -258,15 +258,57 @@ const MorePlayerData = struct([
 
 const TriggerEffect = struct([
   ['type', t.int32],
-  ['arguments', dynamicArray(t.int32, t.int32)], // TODO expand
+  ['check', t.int32],
+  ['aiGoal', t.int32],
+  ['amount', t.int32],
+  ['resource', t.int32],
+  ['diplomacy', t.int32],
+  ['selectedCount', t.int32],
+  ['locationUnitId', t.int32],
+  ['unitType', t.int32],
+  ['sourcePlayer', t.int32],
+  ['targetPlayer', t.int32],
+  ['technology', t.int32],
+  ['stringId', t.int32],
+  ['unk', t.int32],
+  ['displayTime', t.int32],
+  ['targetTrigger', t.int32],
+  ['location', struct({ x: t.int32, y: t.int32 })],
+  ['area', struct([
+    ['bottomLeftX', t.int32],
+    ['bottomLeftY', t.int32],
+    ['topRightX', t.int32],
+    ['topRightY', t.int32]
+  ])],
+  ['unitGroup', t.int32],
+  ['unitType', t.int32],
+  ['instructionPanel', t.int32],
   ['text', dynamicString(t.int32)],
   ['soundFile', dynamicString(t.int32)],
-  ['unitIds', t.array(s => s.arguments[5], t.int32)]
+  ['unitIds', t.array(s => s.selectedCount, t.int32)]
 ])
 
 const TriggerCondition = struct([
   ['type', t.int32],
-  ['arguments', dynamicArray(t.int32, t.int32)]
+  ['check', t.int32],
+  ['amount', t.int32],
+  ['resource', t.int32],
+  ['unitId', t.int32],
+  ['locationUnitId', t.int32],
+  ['unitType', t.int32],
+  ['player', t.int32],
+  ['technology', t.int32],
+  ['timer', t.int32],
+  ['unknown', t.int32],
+  ['area', struct([
+    ['bottomLeftX', t.int32],
+    ['bottomLeftY', t.int32],
+    ['topRightX', t.int32],
+    ['topRightY', t.int32]
+  ])],
+  ['unitGroup', t.int32],
+  ['unitType', t.int32],
+  ['aiSignal', t.int32]
 ])
 
 const Trigger = struct([
