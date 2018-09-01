@@ -3,6 +3,15 @@ const t = struct.types
 
 let version = 1.00
 
+const dynamicArray = (sizeType, elementType) =>
+  struct([
+    ['length', sizeType],
+    ['array', t.array('length', elementType)]
+  ]).map(
+    (s) => s.array,
+    (array) => ({ length: array.length, array })
+  )
+
 const dynamicString = (sizeType) =>
   struct([
     ['length', sizeType],
@@ -209,6 +218,81 @@ const TribePlayerData = struct([
   ['playerObjects', t.array('playerCount', Objects)]
 ])
 
+const VictoryConditions = struct([
+  ['version', t.float],
+  ['conditionsCount', t.int32],
+  ['unknown', t.int8],
+  ['conditions', t.array('conditionsCount', struct([
+    // TODO
+    t.skip(44)
+  ]))],
+  t.if(s => s.version >= 1.0, struct([
+    t.skip(4),
+    ['count', t.int32],
+    t.if(s => s.$parent.version >= 2.0, t.skip(8)),
+    // Additional victory conditions
+    t.skip(s => s.count * (s.$parent.version >= 2.0 ? 32 : 24))
+  ]))
+])
+
+const ScenarioPlayer = struct([
+  ['name', dynamicString(t.uint16)],
+  ['viewX', t.float],
+  ['viewY', t.float],
+  ['terrainX', t.int16],
+  ['terrainY', t.int16],
+  ['alliedVictory', t.bool],
+  ['diploCount', t.int16],
+  ['diplo1', t.array('diploCount', t.int8)],
+  ['diplo2', t.array('diploCount', t.int32)],
+  t.if(() => version >= 1.13, struct([
+    ['color', t.int32]
+  ])),
+  ['victory', VictoryConditions]
+])
+
+const MorePlayerData = struct([
+  ['playerCount', t.uint32],
+  ['data', t.array(8, ScenarioPlayer)]
+])
+
+const TriggerEffect = struct([
+  ['type', t.int32],
+  ['arguments', dynamicArray(t.int32, t.int32)], // TODO expand
+  ['text', dynamicString(t.int32)],
+  ['soundFile', dynamicString(t.int32)],
+  ['unitIds', t.array(s => s.arguments[5], t.int32)]
+])
+
+const TriggerCondition = struct([
+  ['type', t.int32],
+  ['arguments', dynamicArray(t.int32, t.int32)]
+])
+
+const Trigger = struct([
+  ['enabled', t.int32],
+  ['looping', t.bool],
+  ['nameId', t.int32],
+  ['isObjective', t.bool],
+  ['objectiveOrder', t.int32],
+  ['startTime', t.int32],
+  ['description', dynamicString(t.int32)],
+  ['name', dynamicString(t.int32)],
+  ['effects', dynamicArray(t.int32, TriggerEffect)],
+  ['effectOrder', t.array(s => s.effects.length, t.int32)],
+  ['conditions', dynamicArray(t.int32, TriggerCondition)],
+  ['conditionOrder', t.array(s => s.conditions.length, t.int32)]
+])
+
+const Triggers = struct([
+  ['version', t.double],
+  t.if(s => s.version >= 1.5, struct([
+    ['objectivesState', t.int8]
+  ])),
+  ['triggerCount', t.int32],
+  ['triggers', t.array('triggerCount', Trigger)]
+])
+
 module.exports = {
   PreHeader,
   CompressedHeader,
@@ -219,5 +303,7 @@ module.exports = {
   TechTree,
   MapData,
   TribePlayerData,
+  MorePlayerData,
+  Triggers,
   version (v) { version = v }
 }

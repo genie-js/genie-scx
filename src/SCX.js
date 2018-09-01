@@ -11,7 +11,9 @@ const {
   Diplomacy,
   TechTree,
   MapData,
-  TribePlayerData
+  TribePlayerData,
+  MorePlayerData,
+  Triggers
 } = require('./struct')
 
 class SCX {
@@ -53,6 +55,8 @@ class SCX {
       const techTree = TechTree(opts)
       const map = MapData(opts)
       const tribePlayerData = TribePlayerData(opts)
+      const morePlayerData = MorePlayerData(opts)
+      const triggers = Triggers(opts)
       cb(null, {
         pre,
         header,
@@ -62,7 +66,9 @@ class SCX {
         diplomacy,
         techTree,
         map,
-        tribePlayerData
+        tribePlayerData,
+        morePlayerData,
+        triggers
       })
     })
   }
