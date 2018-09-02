@@ -7,24 +7,16 @@ Genie Engine SCX (scenario) file reader for Node.js and the browser
 ## Usage Example
 
 ```javascript
-var scx = require('genie-scx')
+var genieScx = require('genie-scx')
+genieScx.load(fs.readFileSync('/path/to/scenario.scx'), (err, data) => {
+})
 ```
 
 ## API
 
-### `SCX(filename: string)`
+### `genieScx.load(buffer: Buffer, cb)`
 
-> Node only!
-
-Creates a new SCX instance for the .SCX file `filename`.
-
-### `SCX(buffer: Buffer)`
-
-Creates a new SCX instance for the given Buffer.
-
-### `scx.parse(cb)`
-
-Parse the SCX file. `cb` is a Node-style callback `(err, data)`. `data` is an object with lots of data. Use console.log or devtools to figure out the shape.
+Parse an SCX file. `cb` is a Node-style callback `(err, data)`. `data` is an object with lots of data. Use console.log or devtools to figure out the shape.
 
 ## License
 

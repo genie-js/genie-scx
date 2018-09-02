@@ -1,5 +1,3 @@
-const { Buffer } = require('safe-buffer')
-const fs = require('fs')
 const inflate = require('inflate-raw')
 const {
   version,
@@ -17,64 +15,60 @@ const {
   Scripts
 } = require('./struct')
 
-class SCX {
-  constructor (path) {
-    if (typeof path === 'string') {
-      this.path = path
-    } else if (Buffer.isBuffer(path)) {
-      this.buffer = path
-    }
-  }
+exports.load = (buffer, cb) => {
+  const pre = PreHeader.decode(buffer)
+  inflate(buffer.slice(PreHeader.decode.bytes), (err, uncompressed) => {
+    if (err) return cb(err)
 
-  open (cb) {
-    fs.readFile(this.path, (e, buffer) => {
-      if (e) return cb(e)
-      this.buffer = buffer
-      cb(null)
+    let offset = 0
+    const header = CompressedHeader.decode(uncompressed, offset)
+    offset += CompressedHeader.decode.bytes
+    // let structs know about the current version.
+    version(header.version)
+
+    const messages = Messages.decode(uncompressed, offset)
+    offset += Messages.decode.bytes
+
+    const playerData = PlayerData.decode(uncompressed, offset)
+    offset += PlayerData.decode.bytes
+
+    const victory = GlobalVictory.decode(uncompressed, offset)
+    offset += GlobalVictory.decode.bytes
+
+    const diplomacy = Diplomacy.decode(uncompressed, offset)
+    offset += Diplomacy.decode.bytes
+
+    const techTree = TechTree.decode(uncompressed, offset)
+    offset += TechTree.decode.bytes
+
+    const map = MapData.decode(uncompressed, offset)
+    offset += MapData.decode.bytes
+
+    const tribePlayerData = TribePlayerData.decode(uncompressed, offset)
+    offset += TribePlayerData.decode.bytes
+
+    const morePlayerData = MorePlayerData.decode(uncompressed, offset)
+    offset += MorePlayerData.decode.bytes
+
+    const triggers = Triggers.decode(uncompressed, offset)
+    offset += Triggers.decode.bytes
+
+    const scripts = Scripts.decode(uncompressed, offset)
+    offset += Scripts.decode.bytes
+
+    cb(null, {
+      pre,
+      header,
+      messages,
+      playerData,
+      victory,
+      diplomacy,
+      techTree,
+      map,
+      tribePlayerData,
+      morePlayerData,
+      triggers,
+      scripts
     })
-  }
-
-  parse (cb) {
-    if (!this.buffer) {
-      return this.open((err) => {
-        if (err) cb(err)
-        else this.parse(cb)
-      })
-    }
-
-    const pre = PreHeader(this.buffer)
-    inflate(this.buffer.slice(8 + pre.headerLength), (err, uncompressed) => {
-      if (err) return cb(err)
-      const opts = { buf: uncompressed, offset: 0 }
-      const header = CompressedHeader(opts)
-      // let structs know about the current version.
-      version(header.version)
-      const messages = Messages(opts)
-      const playerData = PlayerData(opts)
-      const victory = GlobalVictory(opts)
-      const diplomacy = Diplomacy(opts)
-      const techTree = TechTree(opts)
-      const map = MapData(opts)
-      const tribePlayerData = TribePlayerData(opts)
-      const morePlayerData = MorePlayerData(opts)
-      const triggers = Triggers(opts)
-      const scripts = Scripts(opts)
-      cb(null, {
-        pre,
-        header,
-        messages,
-        playerData,
-        victory,
-        diplomacy,
-        techTree,
-        map,
-        tribePlayerData,
-        morePlayerData,
-        triggers,
-        scripts
-      })
-    })
-  }
+  })
 }
-
-module.exports = (nameOrBuffer) => new SCX(nameOrBuffer)

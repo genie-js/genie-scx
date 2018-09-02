@@ -1,16 +1,21 @@
 const test = require('tape')
+const fs = require('fs')
 const path = require('path')
-const SCX = require('../src/SCX')
+const genieScx = require('../src/SCX')
+
+function read (p) {
+  return fs.readFileSync(path.join(__dirname, p))
+}
 
 test('real_world_france', (t) => {
-  SCX(path.join(__dirname, 'files/real_world_france.scx')).parse((err) => {
+  genieScx.load(read('files/real_world_france.scx'), (err) => {
     t.ifError(err)
     t.end()
   })
 })
 
 test('Age of Heroes beta 1.3.5', (t) => {
-  SCX(path.join(__dirname, 'files/Age of Heroes b1-3-5.scx')).parse((err) => {
+  genieScx.load(read('files/Age of Heroes b1-3-5.scx'), (err) => {
     t.ifError(err)
     t.end()
   })

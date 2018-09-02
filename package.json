@@ -6,8 +6,7 @@
   "bugs": "https://github.com/goto-bus-stop/genie-scx/issues",
   "dependencies": {
     "awestruct": "^1.1.0",
-    "inflate-raw": "^1.0.0",
-    "safe-buffer": "^5.1.2"
+    "inflate-raw": "^1.0.0"
   },
   "devDependencies": {
     "buble": "^0.19.3",
