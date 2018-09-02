@@ -10,7 +10,7 @@ const PreHeader = struct([
   ['timestamp', t.uint32],
   ['instructions', t.dynstring(t.uint32)],
   t.skip(4),
-  ['numPlayers', t.uint32]
+  ['playersCount', t.uint32]
 ])
 
 const PlayerMeta = struct([
@@ -263,7 +263,7 @@ const TriggerEffect = struct([
     ['topRightY', t.int32]
   ])],
   ['unitGroup', t.int32],
-  ['unitType', t.int32],
+  ['unitType2', t.int32],
   ['instructionPanel', t.int32],
   ['text', t.dynstring(t.int32)],
   ['soundFile', t.dynstring(t.int32)],
@@ -289,7 +289,7 @@ const TriggerCondition = struct([
     ['topRightY', t.int32]
   ])],
   ['unitGroup', t.int32],
-  ['unitType', t.int32],
+  ['unitType2', t.int32],
   ['aiSignal', t.int32]
 ])
 
