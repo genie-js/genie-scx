@@ -2,7 +2,7 @@
 
 Genie Engine SCX (scenario) file reader for Node.js and the browser
 
-[![NPM](https://nodei.co/npm/genie-scx.png?compact=true)](https://npmjs.com/package/genie-scx)
+[![NPM](https://nodei.co/npm/genie-scx.png?compact=true)](https://npmjs.com/package/genie-scx) [![Greenkeeper badge](https://badges.greenkeeper.io/genie-js/genie-scx.svg)](https://greenkeeper.io/)
 
 ## Usage Example
 
