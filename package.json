@@ -2,8 +2,8 @@
   "name": "genie-scx",
   "description": ".SCX scenario file reader.",
   "version": "0.0.0-alpha.1",
-  "author": "goto-bus-stop <rene@kooi.me>",
-  "bugs": "https://github.com/goto-bus-stop/genie-scx/issues",
+  "author": "Renée Kooi <renee@kooi.me>",
+  "bugs": "https://github.com/genie-js/genie-scx/issues",
   "dependencies": {
     "awestruct": "^1.1.0",
     "inflate-raw": "^1.0.0"
@@ -14,7 +14,7 @@
     "standard": "^12.0.0",
     "tape": "^4.9.1"
   },
-  "homepage": "https://github.com/goto-bus-stop/genie-scx",
+  "homepage": "https://github.com/genie-js/genie-scx",
   "keywords": [
     "age of empires",
     "genie",
@@ -23,7 +23,7 @@
   ],
   "license": "MIT",
   "main": "lib/SCX",
-  "repository": "goto-bus-stop/genie-scx",
+  "repository": "genie-js/genie-scx",
   "scripts": {
     "prepare": "rimraf lib && npm run build",
     "build": "buble src -o lib",
