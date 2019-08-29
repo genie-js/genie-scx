@@ -11,7 +11,7 @@
   "devDependencies": {
     "buble": "^0.19.3",
     "rimraf": "^3.0.0",
-    "standard": "^13.0.1",
+    "standard": "^14.1.0",
     "tape": "^4.9.1"
   },
   "homepage": "https://github.com/genie-js/genie-scx",
