@@ -12,7 +12,7 @@
     "buble": "^0.20.0",
     "rimraf": "^3.0.0",
     "standard": "^14.1.0",
-    "tape": "^4.9.1"
+    "tape": "^5.0.0"
   },
   "homepage": "https://github.com/genie-js/genie-scx",
   "keywords": [
